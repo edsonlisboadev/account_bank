@@ -15,7 +15,6 @@ def print_menu():
     print("4. Consultar Limite")
     print("5. Encerrar")
 
-
 if user_selection == '2':
     print("Encerrado")
     exit()
@@ -25,7 +24,7 @@ elif user_selection != '1':
 else:
 
 # Loop para login
-    for retry in range(3):
+    while retry < 3:
         user_email = str(input("Digite o seu e-mail: "))
         user_password = int(input("Digite a sua senha: "))
         if user_password == user_right_password and user_email == user_right_email:
@@ -37,59 +36,55 @@ else:
         if retry == 3:
             print("Número de tentativas excedidas. Fim de programa.")
             exit()
-    print_menu()
-    user_selection_menu = input("Escolha uma opção: ") #Selecionar opção do menu
     
-   
-   #Consulta de saldo 
-    if user_selection_menu == '1':
-        print(f"Saldo: R${saldo:.2f}")
-        print(input("Escreva 1 para voltar"))
-        if input == '1':
-            print_menu()
+    # Loop do menu principal
+    while True:
+        print_menu()
+        user_selection_menu = input("Escolha uma opção: ")
+        
+        # Consulta de saldo 
+        if user_selection_menu == '1':
+            print(f"Saldo: R${saldo:.2f}")
+            voltar = input("Escreva 1 para voltar: ")
+            if voltar == '1':
+                continue
+
+        # Saque
+        elif user_selection_menu == '2':
+            saque = float(input("Digite o valor do saque: "))
+            saldo -= saque
+            if saldo + limite <= 0:
+                print(f"Saldo insuficiente para realizar o saque, falta R${abs(saldo + limite):.2f} para completar o saque.")
+            else:
+                print("Saque realizado com sucesso")
+
+        # Depósito
+        elif user_selection_menu == '3':
+            deposito = float(input("Digite o valor do depósito: "))
+            if limite < 100:
+                diferenca = 100 - limite  
+                print(f"Limite total: {limite:.2f}")
+                if deposito >= diferenca:
+                    print(f"Depósito de R${deposito:.2f} completou o limite.")
+                    limite = 100
+                    saldo += deposito - diferenca 
+                    print(f"Saldo atualizado: R${saldo:.2f}")
+                else:
+                    limite += deposito  
+                    print(f"Limite atualizado: R${limite:.2f}")
+            else:
+                saldo += deposito
+                print(f"Saldo atual: R${saldo:.2f}") 
+
+            print("Depósito realizado com sucesso")
+
+        # Consulta de limite
+        elif user_selection_menu == '4':
+            print(f"Limite: R${limite:.2f}") 
+
+        # Encerrar
+        elif user_selection_menu == '5':
+            print("Encerrado")
+            exit()
         else:
             print("Teste um número válido")
-            
-    #Saque
-    elif user_selection_menu == '2':
-        saque = float(input("Digite o valor do saque: "))
-        saldo -= saque
-        if saldo + limite <= 0:
-            print(f"Saldo insuficiente para realizar o saque, falta R${abs(saldo + limite):.2f} para completar o saque.")
-        else:
-            print("Saque realizado com sucesso")
-            print_menu()
-        
-    #Depósito
-    elif user_selection_menu == '3':
-        deposito = float(input("Digite o valor do depósito: "))
-        if limite < 100:
-            diferenca = 100 - limite  
-            print(f"Limite total: {limite:.2f}")
-            if deposito >= diferenca:
-                print(f"Depósito de R${deposito:.2f} completou o limite.")
-                limite = 100
-                saldo += deposito - diferenca 
-                print(f"Saldo atualizado: R${saldo:.2f}")
-            else:
-                limite += deposito  
-                print(f"Limite atualizado: R${limite:.2f}")
-        else:
-            saldo += deposito
-            print(f"Saldo atual: R${saldo:.2f}") 
-        
-        print("Depósito realizado com sucesso")
-        print_menu()
-
-    #Consulta de limite
-    elif user_selection_menu == '4':
-        print(f"Limite: R${limite:.2f}") 
-        
-    #Encerrar
-    elif user_selection_menu == '5':
-        print("Encerrado")
-        exit()
-    else:
-        print("Teste um número válido")  
-
-    

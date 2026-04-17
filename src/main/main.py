@@ -21,10 +21,10 @@ elif user_selection != '1':
     print("Opção inválida")
     exit()
 else:
-    user_email = str(input("Digite o seu e-mail: "))
-    user_password = int(input("Digite a sua senha: "))
 
     while retry < 3:
+        user_email = str(input("Digite o seu e-mail: "))
+        user_password = int(input("Digite a sua senha: "))
         if user_password == user_right_password and user_email == user_right_email:
             print("Senha válida")
             break

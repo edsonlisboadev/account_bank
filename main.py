@@ -73,10 +73,19 @@ else:
                 except ValueError:
                     invalid_code()
                     continue
-                saldo -= saque
-                if saldo + limite <= 0:
-                    print(f"Saldo insuficiente para realizar o saque, falta R${abs(saldo + limite):.2f} para completar o saque.")
-                else:
+            if saldo + limite <= 0:
+                    print(f"Saldo insuficiente para realizar o saque, falta R${ saque - abs(saldo + limite):.2f} para completar o saque.")
+            else:
+                    if saque > saldo:
+                        diferenca = saque - saldo  
+                        if diferenca > limite:
+                            print(f"Saldo e limite insuficientes para realizar o saque, falta R${abs(saldo + limite - saque):.2f} para completar o saque.")
+                            continue
+                        limite -= diferenca  
+                        saldo = 0
+                    else:
+                        saldo -= saque
+
                     print("Saque realizado com sucesso")
                     
 
@@ -88,20 +97,20 @@ else:
                     break
                 except ValueError:
                     invalid_code()
-                if limite < 100:
-                    diferenca = 100 - limite  
-                    print(f"Limite total: {limite:.2f}")
-                    if deposito >= diferenca:
-                        print(f"Depósito de R${deposito:.2f} completou o limite.")
-                        limite = 100
-                        saldo += deposito - diferenca 
-                        print(f"Saldo atualizado: R${saldo:.2f}")
-                    else:
-                        limite += deposito  
-                        print(f"Limite atualizado: R${limite:.2f}")
+            if limite < 100:
+                diferenca = 100 - limite  
+                print(f"Limite total: {limite:.2f}")
+                if deposito >= diferenca:
+                    print(f"Depósito de R${deposito:.2f} completou o limite.")
+                    limite = 100
+                    saldo += deposito - diferenca 
+                    print(f"Saldo atualizado: R${saldo:.2f}")
                 else:
-                    saldo += deposito
-                    print(f"Saldo atual: R${saldo:.2f}") 
+                    limite += deposito  
+                    print(f"Limite atualizado: R${limite:.2f}")
+            else:
+                saldo += deposito
+                print(f"Saldo atual: R${saldo:.2f}") 
 
                 print("Depósito realizado com sucesso")
 
